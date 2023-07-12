@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8'>
+    <meta content='IE=edge' http-equiv='X-UA-Compatible'>
+    <meta content='width=device-width, initial-scale=1' name='viewport'>
+    <title>[DEMO] Save the Arctic Fox</title>
+    <link href='/favicon.ico' rel='icon' type='image/x-icon'>
+    <link href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
+    <link href='https://edgetest.ocdndns.com/esi/oscar-odp-custom/styles.css' rel='stylesheet'>
+    <style type="text/css">
+      .btn-block {
+    display: block;
+    width: 100%;
+}
+    </style>
+
+    <!-- IMPORTANT! Replace the numerical parts of the URL below with your accountId and projectId, in that order -->
+    <!-- <script src="./dist/bundle.js"></script> -->
+   <!-- <script src="/optlyjs/CF_ACCOUNT/WORKER_NAME/edge-client/v1/20224852609/20563890003"></script> -->
+    <!-- <script src="https://optimizely-edge.com/edge-client/v1/20224852609/20563890003" async></script> -->
+    
+    <script type='text/javascript'>
+  var zaius = window['zaius']||(window['zaius']=[]);zaius.methods=["initialize","onload","customer","entity","event","subscribe","unsubscribe","consent","identify","anonymize","dispatch"];zaius.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);zaius.push(t);return zaius}};(function(){for(var i=0;i<zaius.methods.length;i++){var method=zaius.methods[i];zaius[method]=zaius.factory(method)}var e=document.createElement("script");e.type="text/javascript";e.async=true;e.src=("https:"===document.location.protocol?"https://":"http://")+"d1igp3oop3iho5.cloudfront.net/v2/E-1gu00W03jdZ98oKvdpkQ/zaius-min.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();
+  
+  // Edits to this script should only be made below this line.
+  zaius.event('pageview');
+</script>
+    
+    
+    <!-- <script src="https://app.optimizely.test/api/client/8.js"></script> -->
+    
+<script src="https://cdn.optimizely.com/js/24517301086.js"></script>
+    <!-- <script src="https://optimizely-staging.s3.amazonaws.com/js/6387551379.js"></script> -->
+
+  </head> 
+  <body class="arctic-fox">
+    <div class='container'>
+      <div class="main">
+        <h1>Save the Arctic Fox Page A</h1>
+        <img src="https://edgetest.ocdndns.com/esi/oscar-odp-custom/arctic-fox-banner.jpg" class="banner">
+        <a href="#" class="button donate-open-modal-button btn-block" style="text-align: center">Donate Today</a>
+        <br/>
+        <p style="font-size: 10px; text-align: center">I don't want to open a modal, just take me to the <a href="./donate.html">donate page</a>.</p>
+        <br>
+        <p>Today, there are fewer than 200 Arctic foxes in Norway Sweden, and Finland combined. </p>
+        <p>To save the Arctic foxes, we need to <strong>give them more food</strong> and <strong>control the population of red foxes.</strong></p>
+        <p>Your donation will go towards feeding the Arctic foxes in the summer and winter to make sure they are healthy enough to reproduce. </p>
+      </div>
+      <div class="sidebar">
+        <p>👇 Below is a React app renders when a) the optly client initializes, or b) after 2 seconds, whichever comes first. You should not observe FOUC here. 👇</p>
+        <div id="app"></div>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script>
+      var $donateModal = `<div class="modal donate-modal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h3>
+              <strong>Donate Today</strong><br /><br />
+            </h3>
+            <form class="donation-form">
+              <div class="form-group">
+                <input type="text" class="form-control" id="exampleInputName" placeholder="Name">
+              </div>
+              <div class="form-group">
+                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+              </div>
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-addon">$</div>
+                  <input type="text" class="form-control" id="exampleInputAmount" placeholder="Amount" onChange="updateInputAmount()">
+                  <div class="input-group-addon">.00</div>
+                </div>
+              </div>
+              <br />
+              <div class="text-right">
+                <button type="button" class="button" onClick="onSubmit()">Donate</button>
+                <p>
+                  <br />
+                  <a class="dismiss-text">I don't want to save a fox.</a>
+                </p>
+              </div>
+            </form>
+            <div class="donation-thank-you">
+              <h3 class="text-center">Thank you for your donation!</h3>
+              <br /><br />
+            </div>
+          </div>
+        </div>
+      </div>`;
+
+      setTimeout(function() {
+        $('body').append('<div class="lazyload" style="background: rgb(29,68,74); background: linear-gradient(180deg, rgba(29,68,74,1) 0%, rgba(23,59,102,1) 100%); margin: 20px; padding: 20px; font-weight: bold">😭 Lazy loaded reminder. By the time this div has appeared, five foxes have perished. 😭</div>');
+      }, 2500)
+
+      window.onload = (e) => {
+        if (window.location.hash === '#donate') {
+          openModal(e);
+        }
+      };
+
+      window.onpopstate = function(e) {
+        if (window.location.hash === '#donate') {
+          openModal(e, false);
+        } else {
+          closeModal(e, false)
+        }
+      }
+
+      function closeModal(e, shouldPush = true) {
+        if (shouldPush) {
+          e.preventDefault();
+          history.pushState(null, '', ' ');
+        }
+        $('.donate-modal').remove();
+      }
+
+      function openModal(e, shouldPush = true) {
+        if (shouldPush && window.location.hash !== '#donate') {
+          e.preventDefault();
+          history.pushState(null, '', window.location.href + '#donate');
+        }
+        $('body').append($donateModal);
+        $('.donation-thank-you').hide();
+        $('.donation-form').show();
+        $('.donate-modal').show();
+      }
+
+      /**
+       * Show the modal
+       */
+      $('.donate-open-modal-button').on('click', function(e) {
+        openModal(e);
+      });
+
+      /**
+       * Hide the modal
+       */
+      $(document).on('click', function(e) {
+        if (
+          e.target.classList.contains('close') ||
+          e.target.parentElement && e.target.parentElement.classList.contains('close') ||
+          e.target.classList.contains('dismiss-text') ||
+          e.target.classList.contains('modal')
+        ) {
+          if (e.target.classList.contains('modal') && window.innerWidth < '800') {
+            return;
+          }
+          closeModal(e);
+        }
+      });
+      $(document).on('keyup', function(e) {
+        if (e.keyCode === 27) {
+          closeModal(e);
+        }
+      });
+
+      /**
+       * Track donation amounts
+       */
+      function updateInputAmount() {
+        window.donationAmount = window.donationAmount || event.target.value;
+      }
+
+      function onSubmit() {
+        window["optimizely"] = window["optimizely"] || [];
+
+        window["optimizely"].push({
+          "type": "event",
+          "eventName": "trackRevenue",
+          "tags": {
+            "revenue": Number(window.donationAmount) * 100 || 0
+          }
+        });
+        $('.donation-form').hide();
+        $('.donation-thank-you').show()
+      }
+
+    </script>
+  </body>
+</html>
